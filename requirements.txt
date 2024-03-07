@@ -1,0 +1,10 @@
+virtualenv
+python-dotenv 
+ipython
+pyaudio
+openai
+pygame
+google-generativeai
+SpeechRecognition
+undetected_chromedriver
+selenium
