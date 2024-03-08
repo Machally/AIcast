@@ -20,3 +20,14 @@ python -m venv ./.AIcast
 python -m pip install --upgrade pip
 pip install -r requirements.txt
 ```
+## Configuração das APIs
+Crie um arquivo .env no repositório local e adicione as API keys
+```shell
+OPENAI_API_KEY="SuAChaveDaopenAI"
+GOOGLE_API_KEY="SuaChaveDoGoogleAIstudio"
+```
+## Execução
+Para executar o programa basta editar a string 'msg' com as orientações iniciais para a IA Gemini e executar o programa AIcast.py
+```shell
+python AIcast.py
+```
