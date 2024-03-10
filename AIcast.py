@@ -11,7 +11,7 @@ import pygame                               # modulo para stream de audio
 
 load_dotenv()
 
-API_KEY = os.getenv('OPENAI_API_KEY2')
+API_KEY = os.getenv('OPENAI_API_KEY')
 GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 client = OpenAI()
@@ -19,9 +19,6 @@ client = OpenAI()
 url = "https://pi.ai/talk"
 browser = uc.Chrome()
 browser.get(url)
-
-print(browser.command_executor._url)
-print(browser.session_id)
 
 def play_mp3(file_path):
     # Inicializa o mixer de música do pygame d
@@ -45,15 +42,15 @@ def clean_responses(text):
     return clean_response
         
 def main():
-    assistente_falante = False
-    ligar_microfone = True
+    voice_en = True             #habilita voz para Gemini
+    mic_en = True               #habilita deteccao de voz do Pi (chat local se Falso)
 
     genai.configure(api_key=GOOGLE_API_KEY)
     model = genai.GenerativeModel('gemini-pro')
     chat = model.start_chat(history=[])
 
-    if ligar_microfone:
-        import speech_recognition as sr  # pip install SpeechRecognition
+    if mic_en:
+        import speech_recognition as sr 
         r = sr.Recognizer()
         mic = sr.Microphone(device_index=2)
 
@@ -86,7 +83,7 @@ def main():
     time.sleep(1)
     
     while True:
-        if ligar_microfone:
+        if mic_en:
             with mic as fonte:
                 r.adjust_for_ambient_noise(fonte)
                 print("Fale alguma coisa (ou diga 'desligar')")
@@ -112,7 +109,7 @@ def main():
         time.sleep(2) 
         browser.find_element('xpath', '//*[@id="__next"]/main/div/div/div[3]/div[1]/div[4]/div/button').click()
         
-        if assistente_falante:
+        if voice_en:
             speech_file_path = Path(__file__).parent / "speech.mp3"        
             with client.audio.speech.with_streaming_response.create(
                 model="tts-1",
